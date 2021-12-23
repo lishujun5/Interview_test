@@ -1,0 +1,23 @@
+target = Problem_A_1 Problem_A_2
+SRC_PATH = src
+HEAD_PATH = include 
+SRCS += $(wildcard $(SRC_PATH)/*.c) main.cc
+HEADS += $(wildcard $(HEAD_PATH)/*.h)
+object += $(SRCS:.c=.o)
+vpath %h $(HEAD_PATH)
+vpath %c $(SRC_PATH)
+cc = g++
+flags = -g -o2 -lpthread -std=c++11 -I./
+
+.PYHONY : all
+all : Problem_A_1 Problem_A_2
+Problem_A_1 : $(SRCS:.c=.o) 
+	$(cc) -o $(flags) $< -o $@
+Problem_A_2 : $(SRCS:.c=.o)
+	$(cc) -o $(flags) $< -o $@
+$(object) : %o : %c
+	$(cc) -c $(flags) $< -o $@
+
+.PYHONY:clean
+clean:
+	-rm -f *.o 
