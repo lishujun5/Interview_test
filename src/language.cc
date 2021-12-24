@@ -24,6 +24,7 @@ using std::ifstream;
 using std::lock_guard;
 using std::sort;
 using std::vector;
+using std::unique_ptr;
 
 void Language::Init() {
   struct stat statbuf;
@@ -74,7 +75,8 @@ void Language::TrainGrams() {
   ifstream fs;
   const auto &content = context_->cfg()->profile().at(name_);
   fs.open(content.input_file, fstream::in);
-  char buf[kBufSize] = {0};
+  unique_ptr<char[]> buffer(new char[kBufSize]);
+  char* buf = buffer.get();
   string cur_train_string;
   uint8_t c = -1;
   uint32_t count = -1;
